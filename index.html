@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>功能导航</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+        }
+        h2 { margin-bottom: 18px; color: #333; font-size: 18px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 480px;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 56px;
+            background: #ffffff;
+            color: #444;
+            text-decoration: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            font-weight: 500;
+            font-size: 16px;
+            transition: transform 0.1s, background 0.2s;
+            user-select: none;
+        }
+        .btn:active { transform: scale(0.95); background: #e9ecef; }
+        /* 手机端自适应 */
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <h2>请选择入口</h2>
+    <div class="grid">
+        <a href="javascript:void(0)" class="btn">1</a>
+        <a href="javascript:void(0)" class="btn">2</a>
+        <a href="javascript:void(0)" class="btn">3</a>
+        <a href="javascript:void(0)" class="btn">4</a>
+        <a href="javascript:void(0)" class="btn">5</a>
+        <a href="javascript:void(0)" class="btn">6</a>
+        <a href="javascript:void(0)" class="btn">7</a>
+        <a href="javascript:void(0)" class="btn">8</a>
+        <a href="javascript:void(0)" class="btn">9</a>
+        <a href="javascript:void(0)" class="btn">10</a>
+        <a href="javascript:void(0)" class="btn">11</a>
+        <a href="javascript:void(0)" class="btn">12</a>
+        <a href="javascript:void(0)" class="btn">13</a>
+        <a href="javascript:void(0)" class="btn">14</a>
+        <a href="javascript:void(0)" class="btn">15</a>
+        <a href="javascript:void(0)" class="btn">16</a>
+        <a href="javascript:void(0)" class="btn">17</a>
+        <a href="javascript:void(0)" class="btn">18</a>
+        <a href="javascript:void(0)" class="btn">19</a>
+        <a href="javascript:void(0)" class="btn">20</a>
+        <a href="javascript:void(0)" class="btn">21</a>
+        <a href="javascript:void(0)" class="btn">22</a>
+        <a href="javascript:void(0)" class="btn">23</a>
+        <a href="javascript:void(0)" class="btn">24</a>
+        <a href="javascript:void(0)" class="btn">25</a>
+        <a href="javascript:void(0)" class="btn">26</a>
+        <!-- 🔑 第27个按钮：href 填写你的游戏文件名 -->
+        <a href="jlh.html" class="btn">27</a>
+        <a href="javascript:void(0)" class="btn">28</a>
+        <a href="javascript:void(0)" class="btn">29</a>
+        <a href="javascript:void(0)" class="btn">30</a>
+    </div>
+</body>
+</html>
