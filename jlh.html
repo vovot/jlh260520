@@ -6,7 +6,8 @@
 <title>九连环 - 中华传统益智游戏</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--body);display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'SimSun','STSong','Songti SC',serif;transition:background .6s}
+:root{--body:#1a1410;--bg1:#1a1410;--bg2:#120e08}
+body{background:var(--body,#1a1410);display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'SimSun','STSong','Songti SC',serif;transition:background .6s}
 .game-container{width:calc(100% - 16px);max-width:1500px;background:linear-gradient(180deg,var(--bg1),var(--bg2));border:3px solid var(--border);border-radius:20px;padding:18px 0 22px;box-shadow:0 12px 80px rgba(0,0,0,.5),0 0 0 1px var(--border-inner),inset 0 1px 0 rgba(255,255,255,.08);position:relative;transition:all .6s;overflow:hidden}
 .game-container::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,var(--shimmer),transparent,transparent);animation:shimmer 8s linear infinite;opacity:.03;pointer-events:none}
 @keyframes shimmer{to{transform:rotate(360deg)}}
@@ -24,7 +25,7 @@ body{background:var(--body);display:flex;justify-content:center;align-items:cent
 .canvas-frame{width:100%;border:2px solid var(--frame);border-radius:12px;overflow:hidden;box-shadow:inset 0 0 20px rgba(0,0,0,.15),0 4px 16px rgba(0,0,0,.2);position:relative;transition:border-color .6s}
 .info-bar{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:12px;flex-wrap:wrap}
 .info-item{font-size:14px;color:var(--move);letter-spacing:1px;padding:5px 16px;background:var(--move-bg);border-radius:8px;border:1px solid var(--move-bd);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .6s;white-space:nowrap}
-.info-item span{color:var(--move-n);font-weight:bold;font-size:17px;font-variant-numeric:tabular-nums}
+.info-item span{color:var(--move-n);font-weight:bold;font-size:17px;font-family:'Courier New',Consolas,monospace;letter-spacing:0}
 .controls{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
 .btn{padding:7px 16px;font-size:13px;font-family:'SimSun','STSong',serif;background:var(--btn-bg);color:var(--btn-tx);border:1px solid var(--btn-bd);border-radius:8px;cursor:pointer;letter-spacing:2px;transition:all .25s;user-select:none;box-shadow:0 2px 8px rgba(0,0,0,.15);position:relative;overflow:hidden}
 .btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);transition:left .5s}
@@ -72,9 +73,16 @@ body{background:var(--body);display:flex;justify-content:center;align-items:cent
 .win-new-record{color:var(--move-n);font-size:17px;font-weight:bold;margin-top:8px;letter-spacing:3px}
 .star-rating{font-size:32px;margin-bottom:10px;letter-spacing:8px}
 .clear-btn-wrap{text-align:center;margin-top:10px}
+.rotate-tip{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.92);z-index:9999;justify-content:center;align-items:center;flex-direction:column;color:#c8a96e;font-family:'SimSun','STSong',serif;letter-spacing:6px;text-align:center}
+.rotate-tip-icon{font-size:48px;margin-bottom:16px;animation:rotateHint 2s ease-in-out infinite}
+.rotate-tip-text{font-size:18px;line-height:2}
+@keyframes rotateHint{0%,100%{transform:rotate(0deg)}50%{transform:rotate(90deg)}}
+@media(max-width:768px)and (orientation:portrait){.rotate-tip{display:flex}.game-container{display:none}}
+@media(max-width:768px){.game-container{border-radius:12px;border-width:2px;padding:10px 0 14px}.title-area h1{font-size:28px;letter-spacing:14px}.title-area .subtitle{font-size:11px;letter-spacing:3px}.mode-tag{font-size:10px;padding:1px 8px;letter-spacing:1px;margin-left:4px}.title-divider{width:120px;margin-top:4px}.canvas-wrapper{margin-top:4px}.info-bar{gap:6px;margin-top:6px}.info-item{font-size:12px;padding:3px 10px}.info-item span{font-size:14px}.controls{gap:5px;margin-top:6px}.btn{padding:5px 10px;font-size:11px;letter-spacing:1px}.ring-select-wrap{font-size:11px;gap:4px}.ring-select{padding:3px 6px;font-size:11px;min-width:50px}.style-bar{gap:4px;margin-top:6px}.style-item{padding:4px 8px;gap:3px}.style-dot{width:14px;height:14px}.style-name{font-size:10px}.help-panel,.records-panel{margin-top:6px}.help-content,.records-content{padding:10px 14px}.help-content h3,.records-content h3{font-size:13px;letter-spacing:2px}.help-content p{font-size:12px}.record-row{font-size:12px;padding:4px 0}.win-box{padding:24px 30px}.win-box h2{font-size:24px;letter-spacing:8px}.win-box p{font-size:14px}.star-rating{font-size:24px}}
 </style>
 </head>
 <body>
+<div class="rotate-tip"><div class="rotate-tip-icon">📱</div><div class="rotate-tip-text">请横屏使用<br>以获得最佳体验</div></div>
 <div class="game-container" id="gameContainer">
     <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
     <div class="corner corner-bl"></div><div class="corner corner-br"></div>
