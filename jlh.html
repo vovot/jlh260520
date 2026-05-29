@@ -7,23 +7,24 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--body:#1a1410;--bg1:#1a1410;--bg2:#120e08}
-html,body{width:100%;height:100%;overflow:hidden}
-body{background:var(--body,#1a1410);font-family:'SimSun','STSong','Songti SC',serif;transition:background .6s}
-.game-root{width:100%;height:100%;display:flex;flex-direction:column;background:linear-gradient(180deg,var(--bg1),var(--bg2));position:relative;transition:all .6s;overflow:hidden}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+body{font-family:'SimSun','STSong','Songti SC',serif}
+.viewport-wrap{width:100%;height:100%;overflow:hidden;position:relative}
+.game-root{width:1334px;height:750px;position:absolute;background:linear-gradient(180deg,var(--bg1),var(--bg2));overflow:hidden;transform-origin:center center;transition:background .6s}
 .game-root::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,var(--shimmer),transparent,transparent);animation:shimmer 8s linear infinite;opacity:.03;pointer-events:none}
 @keyframes shimmer{to{transform:rotate(360deg)}}
-.header{height:36px;min-height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--move-bd);background:var(--move-bg);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .6s;z-index:2}
-.header-left{display:flex;align-items:center;gap:10px}
-.header-title{font-size:20px;color:var(--title);font-weight:900;letter-spacing:8px;text-shadow:0 1px 4px var(--title-sh);transition:color .6s;white-space:nowrap}
-.mode-tag{display:inline-block;font-size:10px;color:var(--mode-tx);padding:1px 8px;background:var(--mode-bg);border:1px solid var(--mode-bd);border-radius:10px;letter-spacing:2px;white-space:nowrap;vertical-align:middle;transition:all .6s}
-.header-right{display:flex;align-items:center;gap:12px}
-.info-item{font-size:12px;color:var(--move);letter-spacing:1px;white-space:nowrap;transition:all .6s}
-.info-item span{color:var(--move-n);font-weight:bold;font-size:13px;font-family:'Courier New',Consolas,monospace;letter-spacing:0}
-.canvas-area{flex:1;overflow:hidden;position:relative;display:flex;justify-content:center;align-items:center}
+.header{position:absolute;top:0;left:0;right:0;height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--move-bd);background:var(--move-bg);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .6s;z-index:2}
+.header-left{display:flex;align-items:center;gap:8px}
+.header-title{font-size:18px;color:var(--title);font-weight:900;letter-spacing:6px;text-shadow:0 1px 4px var(--title-sh);transition:color .6s;white-space:nowrap}
+.mode-tag{display:inline-block;font-size:9px;color:var(--mode-tx);padding:1px 6px;background:var(--mode-bg);border:1px solid var(--mode-bd);border-radius:10px;letter-spacing:1px;white-space:nowrap;vertical-align:middle;transition:all .6s}
+.header-right{display:flex;align-items:center;gap:10px}
+.info-item{font-size:11px;color:var(--move);letter-spacing:1px;white-space:nowrap;transition:all .6s}
+.info-item span{color:var(--move-n);font-weight:bold;font-size:12px;font-family:'Courier New',Consolas,monospace;letter-spacing:0}
+.canvas-area{position:absolute;top:40px;left:0;right:0;bottom:52px;overflow:hidden}
 .canvas-area canvas{display:block}
-.pause-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:none;justify-content:center;align-items:center;font-size:24px;color:var(--title);letter-spacing:12px;font-weight:bold;z-index:10;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.pause-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:none;justify-content:center;align-items:center;font-size:28px;color:var(--title);letter-spacing:12px;font-weight:bold;z-index:10;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .pause-overlay.show{display:flex}
-.footer{padding:4px 10px 6px;border-top:1px solid var(--move-bd);background:var(--move-bg);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .6s;z-index:2}
+.footer{position:absolute;bottom:0;left:0;right:0;height:52px;padding:3px 10px 4px;border-top:1px solid var(--move-bd);background:var(--move-bg);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .6s;z-index:2;display:flex;flex-direction:column;justify-content:center}
 .footer-row{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:nowrap}
 .footer-row+.footer-row{margin-top:3px}
 .btn{padding:4px 10px;font-size:11px;font-family:'SimSun','STSong',serif;background:var(--btn-bg);color:var(--btn-tx);border:1px solid var(--btn-bd);border-radius:6px;cursor:pointer;letter-spacing:1px;transition:all .25s;user-select:none;white-space:nowrap;touch-action:manipulation}
@@ -38,9 +39,9 @@ body{background:var(--body,#1a1410);font-family:'SimSun','STSong','Songti SC',se
 .style-item.active{border-color:var(--style-active);background:var(--style-hover);box-shadow:0 0 8px var(--btn-glow)}
 .style-dot{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(255,255,255,.15);flex-shrink:0;box-shadow:inset 0 -1px 3px rgba(0,0,0,.3)}
 .style-name{font-size:10px;color:var(--sub);letter-spacing:1px;transition:color .6s}
-.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);justify-content:center;align-items:center;z-index:100;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.modal-overlay{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);justify-content:center;align-items:center;z-index:100;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .modal-overlay.show{display:flex}
-.modal-box{background:linear-gradient(180deg,var(--bg1),var(--bg2));border:2px solid var(--win-bd);border-radius:14px;padding:20px 28px;max-width:90vw;max-height:80vh;overflow-y:auto;position:relative}
+.modal-box{background:linear-gradient(180deg,var(--bg1),var(--bg2));border:2px solid var(--win-bd);border-radius:14px;padding:20px 28px;max-width:80%;max-height:80%;overflow-y:auto;position:relative}
 .modal-box h3{color:var(--panel-tt);font-size:15px;margin-bottom:8px;letter-spacing:3px}
 .modal-box p{font-size:12px;color:var(--panel-tx);line-height:1.8;margin-bottom:3px}
 .modal-box .rule{padding-left:10px;border-left:2px solid var(--panel-rl);margin:4px 0}
@@ -60,27 +61,10 @@ body{background:var(--body,#1a1410);font-family:'SimSun','STSong','Songti SC',se
 .win-box .btn{margin-top:12px}
 .win-new-record{color:var(--move-n);font-size:15px;font-weight:bold;margin-top:6px;letter-spacing:2px}
 .star-rating{font-size:26px;margin-bottom:6px;letter-spacing:6px}
-@media(orientation:portrait){
-.game-root{position:fixed;top:0;left:0;width:100vh;height:100vw;transform:translateY(100vh) rotate(90deg);transform-origin:top left;z-index:9999}
-}
-@media(max-height:400px){
-.header{height:28px;min-height:28px;padding:0 10px}
-.header-title{font-size:16px;letter-spacing:5px}
-.mode-tag{font-size:9px;padding:1px 6px;letter-spacing:1px}
-.info-item{font-size:10px}
-.info-item span{font-size:11px}
-.footer{padding:2px 6px 4px}
-.footer-row{gap:4px}
-.btn{padding:3px 7px;font-size:10px;letter-spacing:0}
-.ring-select-wrap{font-size:10px;gap:2px}
-.ring-select{padding:2px 4px;font-size:10px;min-width:38px}
-.style-dot{width:10px;height:10px}
-.style-name{font-size:9px}
-.style-item{padding:1px 5px;gap:2px}
-}
 </style>
 </head>
 <body>
+<div class="viewport-wrap" id="viewportWrap">
 <div class="game-root" id="gameRoot">
     <div class="header">
         <div class="header-left">
@@ -121,41 +105,75 @@ body{background:var(--body,#1a1410);font-family:'SimSun','STSong','Songti SC',se
         </div>
         <div class="footer-row" id="styleBar"></div>
     </div>
-</div>
-<div class="modal-overlay" id="helpOverlay">
-    <div class="modal-box">
-        <span class="modal-close" id="helpClose">✕</span>
-        <h3>游 戏 规 则</h3>
-        <p class="rule">第 1 环随时可以上梁或下梁。</p>
-        <p class="rule">第 n 环（n＞1）上梁或下梁的条件：第 n-1 环必须在梁上，且第 1 至 n-2 环必须全在下。</p>
-        <p id="helpOptimal">目标：将梁上全部 9 个环取下（拆解模式）或装上（安装模式），最少需要 341 步。</p>
-        <p>操作：点击圆环即可上梁或下梁，可操作的环会有光圈提示。</p>
-        <p>快捷键：数字键操作对应环，H 提示，P 暂停，Ctrl+Z 撤销</p>
+    <div class="modal-overlay" id="helpOverlay">
+        <div class="modal-box">
+            <span class="modal-close" id="helpClose">✕</span>
+            <h3>游 戏 规 则</h3>
+            <p class="rule">第 1 环随时可以上梁或下梁。</p>
+            <p class="rule">第 n 环（n＞1）上梁或下梁的条件：第 n-1 环必须在梁上，且第 1 至 n-2 环必须全在下。</p>
+            <p id="helpOptimal">目标：将梁上全部 9 个环取下（拆解模式）或装上（安装模式），最少需要 341 步。</p>
+            <p>操作：点击圆环即可上梁或下梁，可操作的环会有光圈提示。</p>
+            <p>快捷键：数字键操作对应环，H 提示，P 暂停，Ctrl+Z 撤销</p>
+        </div>
+    </div>
+    <div class="modal-overlay" id="recordsOverlay">
+        <div class="modal-box">
+            <span class="modal-close" id="recordsClose">✕</span>
+            <div id="recordsContent"></div>
+            <div class="clear-btn-wrap" id="clearRecordsWrap"><button class="btn" id="clearRecordsBtn" style="font-size:11px;padding:3px 10px">清除记录</button></div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="winOverlay">
+        <div class="win-box">
+            <h2>恭 喜 通 关</h2>
+            <div class="star-rating" id="starRating"></div>
+            <p>步数：<span id="winMoves">0</span></p>
+            <p>用时：<span id="winTime">00:00.000</span></p>
+            <div class="win-new-record" id="winNewRecord" style="display:none">新纪录！</div>
+            <button class="btn" id="winResetBtn">再来一局</button>
+        </div>
     </div>
 </div>
-<div class="modal-overlay" id="recordsOverlay">
-    <div class="modal-box">
-        <span class="modal-close" id="recordsClose">✕</span>
-        <div id="recordsContent"></div>
-        <div class="clear-btn-wrap" id="clearRecordsWrap"><button class="btn" id="clearRecordsBtn" style="font-size:11px;padding:3px 10px">清除记录</button></div>
-    </div>
-</div>
-<div class="modal-overlay" id="winOverlay">
-    <div class="win-box">
-        <h2>恭 喜 通 关</h2>
-        <div class="star-rating" id="starRating"></div>
-        <p>步数：<span id="winMoves">0</span></p>
-        <p>用时：<span id="winTime">00:00.000</span></p>
-        <div class="win-new-record" id="winNewRecord" style="display:none">新纪录！</div>
-        <button class="btn" id="winResetBtn">再来一局</button>
-    </div>
 </div>
 <script>
 (function(){
 
+var BASE_W=1334,BASE_H=750;
+var isRotated=false;
+
+function fitViewport(){
+var ww=window.innerWidth,wh=window.innerHeight;
+var root=document.getElementById('gameRoot');
+if(wh>ww){
+isRotated=true;
+var sw=wh/BASE_W,sh=ww/BASE_H;
+var s=Math.min(sw,sh);
+root.style.width=BASE_W+'px';root.style.height=BASE_H+'px';
+root.style.transform='translate(-50%,-50%) rotate(90deg) scale('+s+')';
+root.style.transformOrigin='center center';
+root.style.position='absolute';
+root.style.left='50%';
+root.style.top='50%';
+root.style.marginLeft='0';
+root.style.marginTop='0';
+}else{
+isRotated=false;
+var sw=ww/BASE_W,sh=wh/BASE_H;
+var s=Math.min(sw,sh);
+root.style.width=BASE_W+'px';root.style.height=BASE_H+'px';
+root.style.transform='translate(-50%,-50%) scale('+s+')';
+root.style.transformOrigin='center center';
+root.style.position='absolute';
+root.style.left='50%';
+root.style.top='50%';
+root.style.marginLeft='0';
+root.style.marginTop='0';
+}
+}
+
 var RING_OPTIONS=[7,9,10,15,20];
 var TOTAL=9;
-var CANVAS_W=880,CANVAS_H=320;
+var CANVAS_W=1294,CANVAS_H=648;
 var BEAM_Y=88,BEAM_H=22,BEAM_CY=BEAM_Y+BEAM_H/2;
 var ON_Y=BEAM_CY,OFF_Y=222;
 var ANIM_DUR=480;
@@ -294,7 +312,7 @@ css:{
 '--mode-tx':'#c4956a','--mode-bg':'rgba(196,149,106,.08)','--mode-bd':'rgba(196,149,106,.25)',
 '--btn-bg':'linear-gradient(180deg,#c4956a,#9a7048)','--btn-tx':'#1a1008','--btn-bd':'#8a6038','--btn-glow':'rgba(196,149,106,.2)',
 '--move':'#a89070','--move-n':'#d4a878','--move-bg':'rgba(196,149,106,.08)','--move-bd':'rgba(196,149,106,.18)',
-'--style-bg':'rgba(196,149,106,.04)','--style-hover':'rgba(196,149,106,.1)','---active':'#c4956a',
+'--style-bg':'rgba(196,149,106,.04)','--style-hover':'rgba(196,149,106,.1)','--style-active':'#c4956a',
 '--panel-bg':'rgba(30,22,14,.88)','--panel-bd':'rgba(196,149,106,.2)','--panel-tx':'#c0a880','--panel-tt':'#d4a878','--panel-rl':'#c4956a',
 '--win-bd':'#c4956a','--win-tt':'#d4a878','--win-tx':'#a89070'
 },
@@ -409,12 +427,9 @@ var canvasArea=document.getElementById('canvasArea');
 var dpr=window.devicePixelRatio||1;
 
 function setupCanvas(){
-var area=canvasArea;
-var w=area.clientWidth;
-var h=area.clientHeight;
-if(w<=0||h<=0)return;
-CANVAS_W=w;
-CANVAS_H=h;
+CANVAS_W=canvasArea.clientWidth;
+CANVAS_H=canvasArea.clientHeight;
+if(CANVAS_W<=0||CANVAS_H<=0)return;
 computeLayout();
 canvas.width=CANVAS_W*dpr;canvas.height=CANVAS_H*dpr;
 canvas.style.width=CANVAS_W+'px';canvas.style.height=CANVAS_H+'px';
@@ -674,12 +689,12 @@ if(invalidIdx>=0&&invalidIdx<TOTAL){var iy=ringY[invalidIdx];ctx.beginPath();ctx
 
 function draw(){ctx.clearRect(0,0,CANVAS_W,CANVAS_H);drawCanvasBg();drawOnBeamBehind();drawBeam();drawOnBeamFront();drawTransitRings();drawRodDots();drawNumbers();drawHighlights()}
 
-function isCSSRotated(){var root=document.getElementById('gameRoot');return window.innerWidth<window.innerHeight&&root.style.transform&&root.style.transform.indexOf('rotate')>=0}
-
 function mousePos(e){
 var r=canvas.getBoundingClientRect();
-if(isCSSRotated()){
-return{x:(r.height+r.top-e.clientY)*(CANVAS_W/r.height),y:(e.clientX-r.left)*(CANVAS_H/r.width)}
+if(isRotated){
+var lx=(e.clientY-r.top)/r.height*CANVAS_W;
+var ly=(r.right-e.clientX)/r.width*CANVAS_H;
+return{x:lx,y:ly}
 }
 return{x:(e.clientX-r.left)*(CANVAS_W/r.width),y:(e.clientY-r.top)*(CANVAS_H/r.height)}
 }
@@ -695,10 +710,10 @@ if(my>BEAM_Y+BEAM_H&&my<OFF_Y+R_RADIUS+10)return idx;
 }
 return-1}
 
-canvas.addEventListener('click',function(e){if(solving||paused)return;var p=mousePos(e);var idx=hitRing(p.x,p.y);if(idx>=0)toggleRing(idx,false)});
+canvas.addEventListener('click',function(e){if(!fullscreenRequested){fullscreenRequested=true;tryAutoLandscape()}if(solving||paused)return;var p=mousePos(e);var idx=hitRing(p.x,p.y);if(idx>=0)toggleRing(idx,false)});
 canvas.addEventListener('mousemove',function(e){var p=mousePos(e);var idx=hitRing(p.x,p.y);if(idx!==hoverIdx){hoverIdx=idx;canvas.style.cursor=solving||paused?'default':idx>=0&&canToggle(idx)&&!animating[idx]?'pointer':idx>=0?'not-allowed':'default';if(!animLoopRunning)draw()}});
 canvas.addEventListener('mouseleave',function(){hoverIdx=-1;canvas.style.cursor='default';if(!animLoopRunning)draw()});
-canvas.addEventListener('touchstart',function(e){e.preventDefault();if(solving||paused)return;var t=e.touches[0];var p=mousePos(t);var idx=hitRing(p.x,p.y);if(idx>=0)toggleRing(idx,false)},{passive:false});
+canvas.addEventListener('touchstart',function(e){e.preventDefault();if(!fullscreenRequested){fullscreenRequested=true;tryAutoLandscape()}if(solving||paused)return;var t=e.touches[0];var p=mousePos(t);var idx=hitRing(p.x,p.y);if(idx>=0)toggleRing(idx,false)},{passive:false});
 
 resetBtn.addEventListener('click',resetGame);
 winResetBtn.addEventListener('click',resetGame);
@@ -725,20 +740,36 @@ if(e.key==='h'||e.key==='H'){showHint();return}
 if(e.key==='p'||e.key==='P'){togglePause();return}
 });
 
+var fullscreenRequested=false;
 function tryAutoLandscape(){
+if(fullscreenRequested)return;
 try{var p=document.documentElement.requestFullscreen();if(p&&p.then){p.then(function(){try{screen.orientation.lock('landscape')}catch(e){}}).catch(function(){})}}catch(e){}
 }
 
+requestAnimationFrame(function(){
+fitViewport();
 requestAnimationFrame(function(){
 computeLayout();setupCanvas();
 buildStyleBar();precomputeTables();
 firstInit=true;resetGame();
 applyStyle(0);
 updateTitle();updateHelpOptimal();
-tryAutoLandscape();
+});
 });
 
-window.addEventListener('resize',function(){setupCanvas();for(var i=0;i<TOTAL;i++){if(!animating[i])ringY[i]=rings[i]?ON_Y:OFF_Y}if(!animLoopRunning)draw()});
+var resizeTimer=null;
+window.addEventListener('resize',function(){
+if(resizeTimer)clearTimeout(resizeTimer);
+resizeTimer=setTimeout(function(){
+fitViewport();
+setupCanvas();
+for(var i=0;i<TOTAL;i++){if(!animating[i])ringY[i]=rings[i]?ON_Y:OFF_Y}
+if(!animLoopRunning)draw();
+},50);
+});
+window.addEventListener('orientationchange',function(){
+setTimeout(function(){fitViewport();setupCanvas();for(var i=0;i<TOTAL;i++){if(!animating[i])ringY[i]=rings[i]?ON_Y:OFF_Y}if(!animLoopRunning)draw()},100);
+});
 
 })();
 </script>
